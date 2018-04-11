@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+</head>
+<body>
+
+<h2>Articles ({{category}}, {{page}} of {{page_max}})</h2>
+
+<ul>
+  {{#each contextEntries}}
+  <li>
+    <article class="entry">
+      <h3><a href="/{{file}}">{{title}}</a></h3>
+      <time datetime="{{date}}">{{date}}</time>
+      <p>{{description}}</p>
+      <p>Tags: {{#each tags}}{{#unless @first}}, {{/unless}}<a href="/tags/{{tag_url}}/index.html">{{tag}}</a>{{/each}}</p>
+      <p>Category: <a href="/categories/{{category.category_url}}/index.html">{{category.category}}</a></p>
+    </article>
+  </li>
+  {{/each}}
+</ul>
+
+<p>
+  {{page}} / {{page_max}}
+</p>
+
+</body>
+</html>
