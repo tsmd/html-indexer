@@ -1,0 +1,9 @@
+{
+  "name": "html-indexer",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "glob": "^7.1.2"
+  }
+}
