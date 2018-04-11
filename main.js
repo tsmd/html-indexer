@@ -1,6 +1,8 @@
+const _ = require('lodash')
 const cheerio = require('cheerio')
 const fs = require('fs')
 const glob = require('glob')
+const Handlebars = require('handlebars')
 const path = require('path')
 
 // src ディレクトリの設定
@@ -9,18 +11,23 @@ const src = 'src'
 // base ディレクトリの設定
 const base = 'src'
 
+// 設定ファイルを読み込む
+const settings = JSON.parse(fs.readFileSync('settings.json', 'utf-8'))
+settings.tags = new Map(settings.tags)
+console.log(settings.tags)
+
 // files テンプレートと対象ファイル群のマッピング
 const files = {
   articles: {
-    template: '*.hbs',
-    files: 'articles/**/*.html'
+    files: 'articles/**/*.html',
+    template: '*.hbs'
   }
 }
 
 // files 繰り返す
 for (const [name, file] of Object.entries(files)) {
   // glob
-  glob(path.join('src', file.files), (err, matches) => {
+  glob(path.join(src, file.files), (err, matches) => {
     if (err) {
       throw err
     }
@@ -58,6 +65,44 @@ for (const [name, file] of Object.entries(files)) {
       })
     })
 
-    console.log(entries)
+    // インデックス作成の元データを作る
+
+    // タグ別インデックス
+    const tagsIndex = _.chain(entries)
+      .map(entry => entry.data.tags)
+      .flatten()
+      .uniq()
+      .sortBy(tag => [...settings.tags].findIndex(entry => entry[0] === tag))
+      .map(tag => {
+        return {
+          tag: tag,
+          'tag-url': settings.tags.has(tag) ? settings.tags.get(tag).url : tag,
+          entries: entries.filter(entry => entry.data.tags.includes(tag))
+        }
+      })
+      .value()
+
+    // カテゴリ別インデックス
+    // TODO
+
+    // 月別インデックス
+    // TODO
+
+    // ページネーションの処理
+    // TODO
+
+    // インデックスファイルを生成する
+    glob(path.join(src, file.template), (err, matches) => {
+      const processedFiles = []
+
+      matches.forEach(match => {
+        const templateFile = path.join(src, match)
+        const outputFile = path.basename(match, '.hbs') + '.html'
+        const template = Handlebars.compile(fs.readFileSync(match, 'utf-8'))
+        console.log(template({
+          tags: tagsIndex
+        }))
+      })
+    })
   })
 }
