@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h2>Articles (<%= tag %>, <%= page %> of <%= page_max %>)</h2>
+<h2>Stories (<%= page %> of <%= page_max %>)</h2>
 
 <ul>
   <%_ contextEntries.forEach(entry => { %>
@@ -14,11 +14,8 @@
     <article class="entry">
       <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
       <time datetime="<%= entry.date.date_iso %>"><%= entry.date.date_str %></time>
-      <p><%= entry.description %></p>
-      <p>Tags: <% tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/tags/<%= tag.tag_url %>/index.html"><%= tag.tag %></a><% }) %></p>
-      <p>Category: <a href="/categories/<%= entry.category.category_url %>/index.html"><%= entry.category.category %></a></p>
+      <p>Category: <a href="/stories/categories/<%= entry.category.category_url %>/index.html"><%= entry.category.category %></a></p>
       <%_ if (entry.main) { %>
-      <hr>
       <%- entry.main %>
       <%_ } _%>
     </article>
@@ -42,24 +39,10 @@
 
 <hr>
 
-<h2>Tags</h2>
-<ul>
-  <%_ tags.forEach(tag_ => { -%>
-  <li><a href="/tags/<%= tag_.tag_url %>/index.html"><%= tag_.tag %></a><% if (tag_.tag === tag) { %>★<% } %></li>
-  <%_ }) -%>
-</ul>
-
 <h2>Categories</h2>
 <ul>
   <%_ categories.forEach(category => { -%>
-  <li><a href="/categories/<%= category.category_url %>/index.html"><%= category.category %></a></li>
-  <%_ }) -%>
-</ul>
-
-<h2>Monthly Archives</h2>
-<ul>
-  <%_ months.forEach(month => { -%>
-  <li><a href="/months/<%= month.month_url %>/index.html"><%= month.month_str %></a></li>
+  <li><a href="/stories/categories/<%= category.category_url %>/index.html"><%= category.category %></a></li>
   <%_ }) -%>
 </ul>
 

@@ -6,16 +6,16 @@
 </head>
 <body>
 
-<h2>Articles (<%= category %>, <%= page %> of <%= page_max %>)</h2>
+<h2>Events (<%= month_str %>, <%= page %> of <%= page_max %>)</h2>
 
 <ul>
   <%_ contextEntries.forEach(entry => { %>
   <li>
-    <article class="entry">
+    <article class="event">
       <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
       <time datetime="<%= entry.date.date_iso %>"><%= entry.date.date_str %></time>
       <p><%= entry.description %></p>
-      <p>Category: <a href="/categories/<%= entry.category.category_url %>/index.html"><%= entry.category.category %></a></p>
+      <p>Tags: <% tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/events/tags/<%= tag.tag_url %>/index.html"><%= tag.tag %></a><% }) %></p>
     </article>
   </li>
   <%_ }) %>
@@ -37,10 +37,17 @@
 
 <hr>
 
-<h2>Categories</h2>
+<h2>Monthly Archives</h2>
 <ul>
-  <%_ categories.forEach(cat => { -%>
-  <li><a href="/categories/<%= cat.category_url %>/index.html"><%= cat.category %></a><% if (cat.category === category) { %>★<% } %></li>
+  <%_ months.forEach(month => { -%>
+  <li><a href="/events/months/<%= month.month_url %>/index.html"><%= month.month_str %></a><% if (month.month_str === month_str) { %>★<% } %></li>
+  <%_ }) -%>
+</ul>
+
+<h2>Tags</h2>
+<ul>
+  <%_ tags.forEach(tag_ => { -%>
+  <li><a href="/events/tags/<%= tag_.tag_url %>/index.html"><%= tag_.tag %></a></li>
   <%_ }) -%>
 </ul>
 

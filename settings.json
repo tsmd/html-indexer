@@ -1,10 +1,37 @@
 {
   "src": "src",
   "base": "src",
-  "files": {
+  "targets": {
     "articles": {
-      "entries": "articles/**/*.html",
-      "templates": "**/*.ejs"
+      "entries": ["articles/**/*.html"],
+      "templates": ["categories/**/*.ejs", "*.ejs"],
+      "indexer": [
+        ["category", {}],
+        ["date-monthly", {}],
+        ["description", {}],
+        ["page", {}],
+        ["title", {}]
+      ]
+    },
+    "events": {
+      "entries": ["events/events/**/*.html"],
+      "templates": ["events/**/*.ejs"],
+      "indexer": [
+        ["date-monthly", {}],
+        ["description", {}],
+        ["page", {}],
+        ["tag", {}],
+        ["title", {}]
+      ]
+    },
+    "stories": {
+      "entries": ["stories/stories/**/*.html"],
+      "templates": ["stories/**/*.ejs"],
+      "indexer": [
+        ["category", {}],
+        ["date-monthly", {}],
+        ["inner-html", {}]
+      ]
     }
   },
   "tags": [

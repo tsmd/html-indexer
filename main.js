@@ -72,9 +72,9 @@ const render = (file, data) => {
   }
 }
 
-Object.values(settings.files).forEach(file => {
-  const entryFiles = glob.sync(path.join(settings.src, file.entries))
-  const templateFiles = glob.sync(path.join(settings.src, file.templates))
+Object.values(settings.targets).forEach(target => {
+  const entryFiles = glob.sync(target.entries.map(entry => path.join(settings.src, entry)))
+  const templateFiles = glob.sync(target.templates.map(template => path.join(settings.src, template)))
 
   const entries = entryFiles.map(retrieveEntry)
 
