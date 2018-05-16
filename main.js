@@ -79,6 +79,10 @@ Object.values(settings.files).forEach(file => {
 
   const entries = entryFiles.map(retrieveEntry)
 
+  indexers.forEach(plugin => {
+    entries.sort(plugin.compare)
+  })
+
   const context = {
     entries,
     contextEntries: _.cloneDeep(entries)
