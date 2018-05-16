@@ -26,5 +26,21 @@
   <%- page %> / <%- page_max %>
 </p>
 
+<hr>
+
+<h2>Tags</h2>
+<ul>
+  <%_ tags.forEach(tag => { -%>
+  <li><a href="/tags/<%- tag.tag_url %>/index.html"><%- tag.tag %></a></li>
+  <%_ }) -%>
+</ul>
+
+<h2>Categories</h2>
+<ul>
+  <%_ categories.forEach(cat => { -%>
+  <li><a href="/categories/<%- cat.category_url %>/index.html"><%- cat.category %></a><% if (cat.category === category) { %>★<% } %></li>
+  <%_ }) -%>
+</ul>
+
 </body>
 </html>
