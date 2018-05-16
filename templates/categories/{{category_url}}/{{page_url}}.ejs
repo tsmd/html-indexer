@@ -13,7 +13,7 @@
   <li>
     <article class="entry">
       <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
-      <time datetime="<%= entry.date %>"><%= entry.date %></time>
+      <time datetime="<%= entry.date.date_iso %>"><%= entry.date.date_str %></time>
       <p><%= entry.description %></p>
       <p>Tags: <% tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/tags/<%= tag.tag_url %>/index.html"><%= tag.tag %></a><% }) %></p>
       <p>Category: <a href="/categories/<%= entry.category.category_url %>/index.html"><%= entry.category.category %></a></p>
@@ -43,6 +43,13 @@
 <ul>
   <%_ categories.forEach(cat => { -%>
   <li><a href="/categories/<%= cat.category_url %>/index.html"><%= cat.category %></a><% if (cat.category === category) { %>★<% } %></li>
+  <%_ }) -%>
+</ul>
+
+<h2>Monthly Archives</h2>
+<ul>
+  <%_ months.forEach(month => { -%>
+  <li><a href="/months/<%= month.month_url %>/index.html"><%= month.month_str %></a></li>
   <%_ }) -%>
 </ul>
 

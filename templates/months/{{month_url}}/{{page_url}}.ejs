@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h2>Articles (<%= tag %>, <%= page %> of <%= page_max %>)</h2>
+<h2>Articles (<%= month_str %>, <%= page %> of <%= page_max %>)</h2>
 
 <ul>
   <%_ contextEntries.forEach(entry => { %>
@@ -35,7 +35,7 @@
 <h2>Tags</h2>
 <ul>
   <%_ tags.forEach(tag_ => { -%>
-  <li><a href="/tags/<%= tag_.tag_url %>/index.html"><%= tag_.tag %></a><% if (tag_.tag === tag) { %>★<% } %></li>
+  <li><a href="/tags/<%= tag_.tag_url %>/index.html"><%= tag_.tag %></a></li>
   <%_ }) -%>
 </ul>
 
@@ -49,7 +49,7 @@
 <h2>Monthly Archives</h2>
 <ul>
   <%_ months.forEach(month => { -%>
-  <li><a href="/months/<%= month.month_url %>/index.html"><%= month.month_str %></a></li>
+  <li><a href="/months/<%= month.month_url %>/index.html"><%= month.month_str %></a><% if (month.month_str === month_str) { %>★<% } %></li>
   <%_ }) -%>
 </ul>
 

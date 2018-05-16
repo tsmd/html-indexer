@@ -10,7 +10,7 @@ const path = require('path')
 const TagIndexer = require('./lib/tag')
 const CategoryIndexer = require('./lib/category')
 const PageIndexer = require('./lib/page')
-const DateIndexer = require('./lib/date')
+const DateMonthlyIndexer = require('./lib/date-monthly')
 const TitleIndexer = require('./lib/title')
 const DescriptionIndexer = require('./lib/description')
 const InnerHtmlIndexer = require('./lib/inner-html')
@@ -24,7 +24,7 @@ const indexers = [
   new TagIndexer(settings),
   new CategoryIndexer(settings),
   new PageIndexer(settings),
-  new DateIndexer(settings),
+  new DateMonthlyIndexer(settings),
   new TitleIndexer(settings),
   new DescriptionIndexer(settings),
   new InnerHtmlIndexer(settings),
