@@ -65,9 +65,7 @@ const render = (file, data) => {
   const outputFile = path.dirname(baseFilename) + '/' + path.basename(baseFilename, '.ejs') + '.html'
   if (!processedFiles.includes(outputFile)) {
     processedFiles.push(outputFile)
-    const template = ejs.compile(fs.readFileSync(file, 'utf-8'), {
-
-    })
+    const template = ejs.compile(fs.readFileSync(file, 'utf-8'))
     mkdirp.sync(path.dirname(outputFile))
     fs.writeFileSync(outputFile, template(data))
   }
