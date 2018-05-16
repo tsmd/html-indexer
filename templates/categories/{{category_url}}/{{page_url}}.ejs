@@ -26,9 +26,19 @@
   <%_ }) %>
 </ul>
 
-<p>
-  <%= page %> / <%= page_max %>
-</p>
+<hr>
+
+<ul>
+  <%_ if (!is_first) { -%>
+  <li><a href="<%= prev_url %>.html">← Previous</a></li>
+  <%_ } -%>
+  <%_ pages_5.forEach(page => { -%>
+  <li><% if (page.is_current) { %><%= page.page %><% } else { %><a href="<%= page.page_url %>.html"><%= page.page %></a><% } %></li>
+  <%_ }) -%>
+  <%_ if (!is_last) { -%>
+  <li><a href="<%= next_url %>.html">Next →</a></li>
+  <%_ } -%>
+</ul>
 
 <hr>
 
