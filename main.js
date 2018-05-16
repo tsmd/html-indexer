@@ -3,6 +3,7 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const glob = require('fast-glob')
 const Handlebars = require('handlebars')
+const ejs = require('ejs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 
@@ -60,11 +61,13 @@ const processNext = (stack, data, templateFile) => {
 const processedFiles = []
 const render = (file, data) => {
   const translatedFile = forwardSlash(path.join(settings.src, path.relative(settings.templateSrc, file)))
-  const baseFilename = Handlebars.compile(translatedFile)(data)
-  const outputFile = path.dirname(baseFilename) + '/' + path.basename(baseFilename, '.hbs') + '.html'
+  const baseFilename = Handlebars.compile(translatedFile)(data) // Handlebars つかいたくない
+  const outputFile = path.dirname(baseFilename) + '/' + path.basename(baseFilename, '.ejs') + '.html'
   if (!processedFiles.includes(outputFile)) {
     processedFiles.push(outputFile)
-    const template = Handlebars.compile(fs.readFileSync(file, 'utf-8'))
+    const template = ejs.compile(fs.readFileSync(file, 'utf-8'), {
+
+    })
     mkdirp.sync(path.dirname(outputFile))
     fs.writeFileSync(outputFile, template(data))
   }

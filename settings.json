@@ -5,7 +5,7 @@
   "files": {
     "articles": {
       "entries": "articles/**/*.html",
-      "templates": "**/*.hbs"
+      "templates": "**/*.ejs"
     }
   },
   "tags": [

@@ -5,6 +5,7 @@
   "dependencies": {},
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "ejs": "^2.6.1",
     "fast-glob": "^2.2.0",
     "glob": "^7.1.2",
     "handlebars": "^4.0.11",
