@@ -62,8 +62,7 @@ const processNext = (stack, data, templateFile) => {
 
 const processedFiles = []
 const render = (file, data) => {
-  const translatedFile = forwardSlash(path.join(settings.src, path.relative(settings.templateSrc, file)))
-  const baseFilename = Handlebars.compile(translatedFile)(data) // Handlebars つかいたくない
+  const baseFilename = Handlebars.compile(file)(data) // Handlebars つかいたくない
   const outputFile = path.dirname(baseFilename) + '/' + path.basename(baseFilename, '.ejs') + '.html'
   if (!processedFiles.includes(outputFile)) {
     processedFiles.push(outputFile)
@@ -75,7 +74,7 @@ const render = (file, data) => {
 
 Object.values(settings.files).forEach(file => {
   const entryFiles = glob.sync(path.join(settings.src, file.entries))
-  const templateFiles = glob.sync(path.join(settings.templateSrc, file.templates))
+  const templateFiles = glob.sync(path.join(settings.src, file.templates))
 
   const entries = entryFiles.map(retrieveEntry)
 

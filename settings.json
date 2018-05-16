@@ -1,7 +1,6 @@
 {
   "src": "src",
   "base": "src",
-  "templateSrc": "templates",
   "files": {
     "articles": {
       "entries": "articles/**/*.html",
