@@ -11,12 +11,16 @@
 <ul>
   <%_ contextEntries.forEach(entry => { %>
   <li>
-    <article class="entry">
+    <article class="entry" style="border: 1px solid black; padding: 1rem;">
       <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
       <time datetime="<%= entry.date %>"><%= entry.date %></time>
       <p><%= entry.description %></p>
       <p>Tags: <% tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/tags/<%= tag.tag_url %>/index.html"><%= tag.tag %></a><% }) %></p>
       <p>Category: <a href="/categories/<%= entry.category.category_url %>/index.html"><%= entry.category.category %></a></p>
+      <%_ if (entry.main) { %>
+      <hr>
+      <%- entry.main %>
+      <%_ } _%>
     </article>
   </li>
   <%_ }) %>

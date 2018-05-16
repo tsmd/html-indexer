@@ -13,6 +13,7 @@ const PageIndexer = require('./lib/page')
 const DateIndexer = require('./lib/date')
 const TitleIndexer = require('./lib/title')
 const DescriptionIndexer = require('./lib/description')
+const InnerHtmlIndexer = require('./lib/inner-html')
 
 // 設定ファイルを読み込む
 const settings = JSON.parse(fs.readFileSync('settings.json', 'utf-8'))
@@ -26,6 +27,7 @@ const indexers = [
   new DateIndexer(settings),
   new TitleIndexer(settings),
   new DescriptionIndexer(settings),
+  new InnerHtmlIndexer(settings),
 ]
 
 const retrieveEntry = (entryFile) => {
