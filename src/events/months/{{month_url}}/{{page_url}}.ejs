@@ -15,7 +15,7 @@
       <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
       <time datetime="<%= entry.date.date_iso %>"><%= entry.date.date_str %></time>
       <p><%= entry.description %></p>
-      <p>Tags: <% tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/events/tags/<%= tag.tag_url %>/index.html"><%= tag.tag %></a><% }) %></p>
+      <p>Tags: <% entry.tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/events/tags/<%= tag.tag_url %>/index.html"><%= tag.tag %></a><% }) %></p>
     </article>
   </li>
   <%_ }) %>
