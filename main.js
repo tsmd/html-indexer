@@ -1,81 +1,77 @@
 const _ = require('lodash')
 const cheerio = require('cheerio')
+const ejs = require('ejs')
 const fs = require('fs')
 const glob = require('fast-glob')
 const Handlebars = require('handlebars')
-const ejs = require('ejs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 
-const TagIndexer = require('./lib/tag')
-const CategoryIndexer = require('./lib/category')
-const PageIndexer = require('./lib/page')
-const DateMonthlyIndexer = require('./lib/date-monthly')
-const TitleIndexer = require('./lib/title')
-const DescriptionIndexer = require('./lib/description')
-const InnerHtmlIndexer = require('./lib/inner-html')
-
-// 設定ファイルを読み込む
-const settings = JSON.parse(fs.readFileSync('settings.json', 'utf-8'))
-
-const forwardSlash = path => path.replace(/\\/g, '/')
-
-const indexers = [
-  new TagIndexer(settings),
-  new CategoryIndexer(settings),
-  new PageIndexer(settings),
-  new DateMonthlyIndexer(settings),
-  new TitleIndexer(settings),
-  new DescriptionIndexer(settings),
-  new InnerHtmlIndexer(settings),
-]
-
-const retrieveEntry = (entryFile) => {
-  const $ = cheerio.load(fs.readFileSync(entryFile, 'utf-8'))
-  const entry = {
-    file: forwardSlash(path.relative(settings.base, entryFile)),
-  }
-  indexers.forEach(plugin => {
-    plugin.retrieveData(entry, $)
-  })
-  return entry
+function normalizeToForwardSlash (path) {
+  return path.replace(/\\/g, '/')
 }
 
-const extractProcessStack = (filePath) => {
+function render (file, data) {
+  return ejs.compile(fs.readFileSync(file, 'utf-8'))(data)
+}
+
+function writeFile (filePath, data) {
+  mkdirp.sync(path.dirname(filePath))
+  fs.writeFileSync(filePath, data, 'utf-8')
+}
+
+function extractIndexStack (filePath) {
   const matched = filePath.match(/{{.+?}}/g)
   return matched ? matched.map(tag => tag.slice(2, tag.length - 2)) : []
 }
 
-const processNext = (stack, data, templateFile) => {
-  const process = stack[0]
-  const nextStack = stack.slice(1)
-  if (process) {
-    indexers.forEach(plugin => {
-      if (plugin.exports.includes(process)) {
-        plugin.classify(data, nextContext => processNext(nextStack, nextContext, templateFile))
-      }
-    })
-  } else {
-    render(templateFile, data)
-  }
+function resolvePath (path_) {
+  return path.join(srcDir, path_)
 }
 
-const processedFiles = []
-const render = (file, data) => {
-  const baseFilename = Handlebars.compile(file)(data) // Handlebars つかいたくない
-  const outputFile = path.dirname(baseFilename) + '/' + path.basename(baseFilename, '.ejs') + '.html'
-  if (!processedFiles.includes(outputFile)) {
-    processedFiles.push(outputFile)
-    const template = ejs.compile(fs.readFileSync(file, 'utf-8'))
-    mkdirp.sync(path.dirname(outputFile))
-    fs.writeFileSync(outputFile, template(data))
-  }
-}
+const settings = JSON.parse(fs.readFileSync('settings.json', 'utf-8'))
+const srcDir = settings.src
 
 Object.values(settings.targets).forEach(target => {
-  const entryFiles = glob.sync(target.entries.map(entry => path.join(settings.src, entry)))
-  const templateFiles = glob.sync(target.templates.map(template => path.join(settings.src, template)))
 
+  function instantiateIndexers ([indexer, options]) {
+    const Indexer = require(`./lib/${indexer}`)
+    if (!Indexer) {
+      throw Error(`Indexer ${indexer} not found.`)
+    }
+    return new Indexer(options)
+  }
+
+  function retrieveEntry (entryFile) {
+    const $ = cheerio.load(fs.readFileSync(entryFile, 'utf-8'))
+    const entry = {
+      file: normalizeToForwardSlash(path.relative(srcDir, entryFile)),
+    }
+    indexers.forEach(plugin => {
+      plugin.retrieveData(entry, $)
+    })
+    return entry
+  }
+
+  function indexNext (stack, data, templateFile) {
+    const process = stack[0]
+    const nextStack = stack.slice(1)
+    if (process) {
+      indexers.forEach(plugin => {
+        if (plugin.exports.includes(process)) {
+          plugin.classify(data, nextContext => indexNext(nextStack, nextContext, templateFile))
+        }
+      })
+    } else {
+      const outputFile = Handlebars.compile(templateFile)(data).replace(/\.ejs$/i, '.html')
+      const rendered = render(templateFile, data)
+      writeFile(outputFile, rendered)
+    }
+  }
+
+  const indexers = target.indexers.map(instantiateIndexers)
+  const entryPattern = target.entries.map(resolvePath)
+  const entryFiles = glob.sync(entryPattern)
   const entries = entryFiles.map(retrieveEntry)
 
   indexers.forEach(plugin => {
@@ -91,9 +87,12 @@ Object.values(settings.targets).forEach(target => {
     plugin.addIndex(context)
   })
 
+  const templatePattern = target.templates.map(resolvePath)
+  const templateFiles = glob.sync(templatePattern)
+
   templateFiles.forEach(templateFile => {
-    const processStack = extractProcessStack(templateFile)
+    const indexStack = extractIndexStack(templateFile)
     const clonedContext = _.cloneDeep(context)
-    processNext(processStack, clonedContext, templateFile)
+    indexNext(indexStack, clonedContext, templateFile)
   })
 })
