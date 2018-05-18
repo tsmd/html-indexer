@@ -3,7 +3,6 @@ const cheerio = require('cheerio')
 const ejs = require('ejs')
 const fs = require('fs')
 const glob = require('fast-glob')
-const Handlebars = require('handlebars')
 const mkdirp = require('mkdirp')
 const path = require('path')
 
@@ -27,6 +26,17 @@ function extractIndexStack (filePath) {
 
 function resolvePath (path_) {
   return path.join(srcDir, path_)
+}
+
+function replaceBraces (stringWithBraces, data) {
+  const regExp = /{{\S+?}}/
+  let match
+  while (match = regExp.exec(stringWithBraces)) {
+    const matched = match[0]
+    stringWithBraces = stringWithBraces.replace(matched, data[matched.slice(2, -2)])
+    regExp.lastIndex = match.index
+  }
+  return stringWithBraces
 }
 
 const settings = JSON.parse(fs.readFileSync('settings.json', 'utf-8'))
@@ -63,7 +73,7 @@ Object.values(settings.targets).forEach(target => {
         }
       })
     } else {
-      const outputFile = Handlebars.compile(templateFile)(data).replace(/\.ejs$/i, '.html')
+      const outputFile = replaceBraces(templateFile, data).replace(/\.ejs$/i, '.html')
       const rendered = render(templateFile, data)
       writeFile(outputFile, rendered)
     }

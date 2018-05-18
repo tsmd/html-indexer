@@ -7,7 +7,6 @@
     "cheerio": "^1.0.0-rc.2",
     "ejs": "^2.6.1",
     "fast-glob": "^2.2.0",
-    "handlebars": "^4.0.11",
     "lodash": "latest",
     "mkdirp": "^0.5.1"
   }
