@@ -8,10 +8,10 @@ package-lock.json
 .idea/
 .vscode/
 /dist/
-/src/*.html
-/src/categories/**/*.html
-/src/events/*.html
-/src/events/months/**/*.html
-/src/events/tags/**/*.html
-/src/stories/*.html
-/src/stories/categories/**/*.html
+/example/src/*.html
+/example/src/categories/**/*.html
+/example/src/events/*.html
+/example/src/events/months/**/*.html
+/example/src/events/tags/**/*.html
+/example/src/stories/*.html
+/example/src/stories/categories/**/*.html
