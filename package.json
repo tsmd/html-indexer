@@ -2,6 +2,7 @@
   "name": "html-indexer",
   "version": "0.0.1",
   "private": true,
+  "main": "html-indexer.js",
   "dependencies": {},
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
