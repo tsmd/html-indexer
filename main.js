@@ -83,14 +83,11 @@ Object.values(settings.targets).forEach(target => {
   const entryPattern = target.entries.map(resolvePath)
   const entryFiles = glob.sync(entryPattern)
   const entries = entryFiles.map(retrieveEntry)
-
-  indexers.forEach(plugin => {
-    entries.sort(plugin.compare)
-  })
+  const sortedEntries = target.orderBy ? _.orderBy(entries, target.orderBy, target.order) : entries
 
   const context = {
-    entries,
-    contextEntries: _.cloneDeep(entries)
+    entries: sortedEntries,
+    contextEntries: _.cloneDeep(sortedEntries)
   }
 
   indexers.forEach(plugin => {

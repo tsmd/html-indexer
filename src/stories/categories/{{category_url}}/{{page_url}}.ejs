@@ -25,7 +25,7 @@
   <li>
     <article class="entry">
       <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
-      <time datetime="<%= entry.date.date_iso %>"><%= entry.date.date_str %></time>
+      <time datetime="<%= entry.date_iso %>"><%= entry.date_str %></time>
       <p>Category: <a href="/stories/categories/<%= entry.category.category_url %>/index.html"><%= entry.category.category %></a></p>
       <%_ if (entry.main) { %>
       <%- entry.main %>

@@ -21,7 +21,9 @@
           "entriesPerPage": 2
         }],
         ["title", {}]
-      ]
+      ],
+      "orderBy": "month_url",
+      "order": "desc"
     },
     "events": {
       "entries": ["events/events/**/*.html"],
@@ -46,7 +48,9 @@
           ]
         }],
         ["title", {}]
-      ]
+      ],
+      "orderBy": "month_url",
+      "order": "desc"
     },
     "stories": {
       "entries": ["stories/stories/**/*.html"],
@@ -67,7 +71,9 @@
         ["page", {
           "entriesPerPage": 2
         }]
-      ]
+      ],
+      "orderBy": "month_url",
+      "order": "desc"
     }
   }
 }
