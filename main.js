@@ -42,7 +42,7 @@ function replaceBraces (stringWithBraces, data) {
 const settings = JSON.parse(fs.readFileSync('settings.json', 'utf-8'))
 const srcDir = settings.src
 
-Object.values(settings.targets).forEach(target => {
+settings.targets.forEach(target => {
 
   function instantiateIndexers ([indexer, options]) {
     const Indexer = require(`./lib/${indexer}`)

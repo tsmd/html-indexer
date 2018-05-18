@@ -1,7 +1,7 @@
 {
   "src": "src",
-  "targets": {
-    "articles": {
+  "targets": [
+    {
       "entries": ["articles/**/*.html"],
       "templates": ["categories/**/*.ejs", "*.ejs"],
       "indexers": [
@@ -25,7 +25,7 @@
       "orderBy": "month_url",
       "order": "desc"
     },
-    "events": {
+    {
       "entries": ["events/events/**/*.html"],
       "templates": ["events/**/*.ejs"],
       "indexers": [
@@ -52,7 +52,7 @@
       "orderBy": "month_url",
       "order": "desc"
     },
-    "stories": {
+    {
       "entries": ["stories/stories/**/*.html"],
       "templates": ["stories/**/*.ejs"],
       "indexers": [
@@ -75,5 +75,5 @@
       "orderBy": "month_url",
       "order": "desc"
     }
-  }
+  ]
 }
