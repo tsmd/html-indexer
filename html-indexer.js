@@ -79,13 +79,13 @@ function normalizeToForwardSlash (path) {
   return path.replace(/\\/g, '/')
 }
 
-function renderFile (file, data) {
-  const fileContent = fs.readFileSync(file, 'utf-8')
-  return render(fileContent, data)
+function renderFile (filename, data) {
+  const fileContent = fs.readFileSync(filename, 'utf-8')
+  return render(fileContent, filename, data)
 }
 
-function render (file, data) {
-  return ejs.compile(file)(data)
+function render (file, filename, data) {
+  return ejs.compile(file, {filename})(data)
 }
 
 function writeFile (filePath, data) {
