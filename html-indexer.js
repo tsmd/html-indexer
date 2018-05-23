@@ -26,7 +26,7 @@ function exec (settings) {
   function retrieveEntry (entryFile) {
     const $ = cheerio.load(fs.readFileSync(entryFile, 'utf-8'), {decodeEntities: false})
     const entry = {
-      file: normalizeToForwardSlash(path.relative(settings.src, entryFile)),
+      file: stripIndexHtml(normalizeToForwardSlash(path.relative(settings.src, entryFile))),
     }
     indexers.forEach(plugin => {
       plugin.retrieveData(entry, $)
@@ -77,6 +77,10 @@ function exec (settings) {
 
 function normalizeToForwardSlash (path) {
   return path.replace(/\\/g, '/')
+}
+
+function stripIndexHtml (path) {
+  return path.replace(/(^|\/)index\.html$/, '$1')
 }
 
 function renderFile (filename, data) {
