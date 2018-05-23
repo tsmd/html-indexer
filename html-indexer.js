@@ -24,7 +24,7 @@ function exec (settings) {
   }
 
   function retrieveEntry (entryFile) {
-    const $ = cheerio.load(fs.readFileSync(entryFile, 'utf-8'))
+    const $ = cheerio.load(fs.readFileSync(entryFile, 'utf-8'), {decodeEntities: false})
     const entry = {
       file: normalizeToForwardSlash(path.relative(settings.src, entryFile)),
     }
