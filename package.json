@@ -8,6 +8,7 @@
     "ejs": "^2.6.1",
     "fast-glob": "^2.2.0",
     "lodash": "latest",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "moment": "^2.22.1"
   }
 }
