@@ -31,7 +31,10 @@ const targetSettings = [
     entries: ['events/events/**/*.html'],
     templates: ['events/**/*.ejs'],
     indexers: [
-      ['date-monthly', {}],
+      ['date-monthly', {
+        locale: 'en',
+        formatMonth: 'MMMM, Y'
+      }],
       ['description', {}],
       ['page', {
         entriesPerPage: 2
@@ -70,7 +73,10 @@ const targetSettings = [
         ]
       }],
       ['date-monthly', {}],
-      ['inner-html', {}],
+      ['inner-html', {
+        selector: 'main',
+        exports: 'main',
+      }],
       ['page', {
         entriesPerPage: 2
       }]
