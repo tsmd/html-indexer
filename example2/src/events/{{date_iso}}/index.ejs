@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+
+<header>
+  <h1>Cool website</h1>
+</header>
+
+<hr>
+
+<h2>Events (<%= date_str %>)</h2>
+
+<ul>
+  <%_ contextEntries.forEach(entry => { %>
+  <li>
+    <article class="entry">
+      <h3><a href="/<%= entry.file %>"><%= entry.title %></a></h3>
+      <time datetime="<%= entry.date_iso %>"><%= entry.date_str %> <%= entry.time %></time>
+      <p><%= entry.organiser %></p>
+      <p>Tags: <% entry.tags.forEach((tag, i) => { %><% if (i !== 0) { %>, <% } %><a href="/events/themes/<%= tag.tag_url %>/"><%= tag.tag %></a><% }) %></p>
+    </article>
+  </li>
+  <%_ }) %>
+</ul>
+
+</body>
+</html>
